@@ -1,4 +1,4 @@
-package com.mokii.sun.mokiidiary;
+package com.mokii.sun.mokiidiary.ui.activity;
 
 import android.annotation.SuppressLint;
 import android.support.v7.app.ActionBar;
@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.MotionEvent;
 import android.view.View;
+import com.mokii.sun.mokiidiary.R;
+import com.mokii.sun.mokiidiary.support.util.activityUtil;
 
 /**
  * An example full-screen activity that shows and hides the system UI (i.e.
@@ -17,7 +19,7 @@ public class InitFullscreenActivity extends AppCompatActivity {
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
      */
-    private static final boolean AUTO_HIDE = true;
+    private static final boolean AUTO_HIDE = false;
 
     /**
      * If {@link #AUTO_HIDE} is set, the number of milliseconds to wait after
@@ -31,6 +33,7 @@ public class InitFullscreenActivity extends AppCompatActivity {
      */
     private static final int UI_ANIMATION_DELAY = 300;
     private final Handler mHideHandler = new Handler();
+    private final Handler mShowHandler = new Handler();
     private View mContentView;
     private final Runnable mHidePart2Runnable = new Runnable() {
         @SuppressLint("InlinedApi")
@@ -68,6 +71,14 @@ public class InitFullscreenActivity extends AppCompatActivity {
             hide();
         }
     };
+
+    private final Runnable mShowRunnable = new Runnable() {
+        @Override
+        public void run() {
+            show();
+        }
+    };
+
     /**
      * Touch listener to use for in-layout UI controls to delay hiding the
      * system UI. This is to prevent the jarring behavior of controls going away
@@ -79,9 +90,15 @@ public class InitFullscreenActivity extends AppCompatActivity {
             if (AUTO_HIDE) {
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
             }
+            //to do 微信登陆
+            landSuccess();
             return false;
         }
     };
+
+    private void landSuccess() {
+        activityUtil.startActivity(this,MainActivity.class);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,11 +133,12 @@ public class InitFullscreenActivity extends AppCompatActivity {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
+        delayeShow(4000);
     }
 
     private void toggle() {
         if (mVisible) {
-            hide();
+            //hide();
         } else {
             show();
         }
@@ -160,4 +178,10 @@ public class InitFullscreenActivity extends AppCompatActivity {
         mHideHandler.removeCallbacks(mHideRunnable);
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
+
+    private void delayeShow(int delayMillis){
+        mShowHandler.removeCallbacks(mShowRunnable);
+        mShowHandler.postDelayed(mShowRunnable, delayMillis);
+    }
+
 }
