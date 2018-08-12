@@ -14,12 +14,14 @@ import com.mokii.sun.mokiidiary.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import butterknife.Unbinder;
 import me.yokeyword.fragmentation.SupportFragment;
 
 public class MainFragment extends SupportFragment {
 
     @BindView(R.id.navigation)
     BottomNavigationView navigation;
+    Unbinder unbinder;
 
     public static final int FIRST = 0;
     public static final int SECOND = 1;
@@ -59,7 +61,7 @@ public class MainFragment extends SupportFragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_main, container, false);
-        ButterKnife.bind(this,view);
+        unbinder = ButterKnife.bind(this,view);
         initView(view);
         return view;
     }
@@ -90,4 +92,9 @@ public class MainFragment extends SupportFragment {
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
     }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        unbinder.unbind();
+    }
 }

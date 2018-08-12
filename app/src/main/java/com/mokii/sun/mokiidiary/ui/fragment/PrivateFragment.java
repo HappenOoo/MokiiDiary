@@ -4,6 +4,7 @@ import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import android.view.ViewGroup;
 import com.mokii.sun.mokiidiary.R;
 
 import me.yokeyword.fragmentation.SupportFragment;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +25,7 @@ import me.yokeyword.fragmentation.SupportFragment;
 public class PrivateFragment extends SupportFragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String TAG = "PrivateFragment";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -68,6 +71,7 @@ public class PrivateFragment extends SupportFragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        Log.d(TAG,"onCreat end");
     }
 
     @Override
