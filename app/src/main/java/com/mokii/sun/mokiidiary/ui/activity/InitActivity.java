@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.mokii.sun.mokiidiary.BaseActivity;
 import com.mokii.sun.mokiidiary.R;
 import com.mokii.sun.mokiidiary.support.util.activityUtil;
 
@@ -21,7 +22,7 @@ import butterknife.ButterKnife;
  * An example full-screen activity that shows and hides the system UI (i.e.
  * status bar and navigation/system bar) with user interaction.
  */
-public class InitFullscreenActivity extends AppCompatActivity {
+public class InitActivity extends AppCompatActivity {
     /**
      * Whether or not the system UI should be auto-hidden after
      * {@link #AUTO_HIDE_DELAY_MILLIS} milliseconds.
@@ -99,27 +100,26 @@ public class InitFullscreenActivity extends AppCompatActivity {
      * system UI. This is to prevent the jarring behavior of controls going away
      * while interacting with activity UI.
      */
-    private final View.OnTouchListener mDelayHideTouchListener = new View.OnTouchListener() {
+    private final View.OnClickListener mDelayHideClickListener = new View.OnClickListener() {
         @Override
-        public boolean onTouch(View view, MotionEvent motionEvent) {
+        public void onClick(View v) {
             if (AUTO_HIDE) {
                 delayedHide(AUTO_HIDE_DELAY_MILLIS);
             }
             //todo 微信登陆
             landSuccess();
-            return false;
         }
     };
 
     private void landSuccess() {
-        activityUtil.startActivity(this, MainActivity.class);
+        activityUtil.startActivity(this, BaseActivity.class);
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.activity_init_fullscreen);
+        setContentView(R.layout.activity_init);
         ButterKnife.bind(this);
 
         mVisible = true;
@@ -138,7 +138,7 @@ public class InitFullscreenActivity extends AppCompatActivity {
         // Upon interacting with UI controls, delay any scheduled hide()
         // operations to prevent the jarring behavior of controls going away
         // while interacting with the UI.
-        dummyButton.setOnTouchListener(mDelayHideTouchListener);
+        dummyButton.setOnClickListener(mDelayHideClickListener);
     }
 
     @Override
@@ -149,7 +149,7 @@ public class InitFullscreenActivity extends AppCompatActivity {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
-        delayeShow(3000);
+        delayedShow(3000);
     }
 
     private void toggle() {
@@ -195,7 +195,7 @@ public class InitFullscreenActivity extends AppCompatActivity {
         mHideHandler.postDelayed(mHideRunnable, delayMillis);
     }
 
-    private void delayeShow(int delayMillis) {
+    private void delayedShow(int delayMillis) {
         mShowHandler.removeCallbacks(mShowRunnable);
         mShowHandler.postDelayed(mShowRunnable, delayMillis);
     }
