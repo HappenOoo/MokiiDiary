@@ -3,6 +3,7 @@ package com.mokii.sun.mokiidiary;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Window;
 
 import com.mokii.sun.mokiidiary.ui.fragment.CalendarFragment;
 import com.mokii.sun.mokiidiary.ui.fragment.MainFragment;
@@ -20,6 +21,7 @@ public class BaseActivity extends SupportActivity implements
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_base);
 
         Log.d(TAG,"onCreate start");

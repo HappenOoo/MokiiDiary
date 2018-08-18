@@ -8,7 +8,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
+import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 import com.mokii.sun.mokiidiary.R;
@@ -27,7 +32,8 @@ import me.yokeyword.fragmentation.SupportFragment;
  * Use the {@link CalendarFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CalendarFragment extends SupportFragment {
+public class CalendarFragment extends SupportFragment implements CalendarView.OnDateSelectedListener,
+        CalendarView.OnYearChangeListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = "CalendarFragment";
@@ -40,10 +46,26 @@ public class CalendarFragment extends SupportFragment {
     @BindView(R.id.calendarLayout)
     CalendarLayout calendarLayout;
     Unbinder unbinder;
+    @BindView(R.id.tv_month_day)
+    TextView tvMonthDay;
+    @BindView(R.id.tv_year)
+    TextView tvYear;
+    @BindView(R.id.tv_lunar)
+    TextView tvLunar;
+    @BindView(R.id.ib_calendar)
+    ImageView ibCalendar;
+    @BindView(R.id.tv_current_day)
+    TextView tvCurrentDay;
+    @BindView(R.id.fl_current)
+    FrameLayout flCurrent;
+    @BindView(R.id.rl_tool)
+    RelativeLayout rlTool;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+
+    private int mYear;
 
     private OnFragmentInteractionListener mListener;
 
@@ -93,7 +115,41 @@ public class CalendarFragment extends SupportFragment {
         Log.d(TAG, "onCreateView start");
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
         unbinder = ButterKnife.bind(this, view);
+
+        initRltoolStatus();
         return view;
+    }
+
+    private void initRltoolStatus() {
+        calendarView.setOnDateSelectedListener(this);
+        calendarView.setOnYearChangeListener(this);
+        tvYear.setText(String.valueOf(calendarView.getCurYear()));
+        mYear = calendarView.getCurYear();
+        tvMonthDay.setText(calendarView.getCurMonth() + "月" + calendarView.getCurDay() + "日");
+        tvLunar.setText("今日");
+        tvCurrentDay.setText(String.valueOf(calendarView.getCurDay()));
+
+        tvMonthDay.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!calendarLayout.isExpand()) {
+                    calendarView.showYearSelectLayout(mYear);
+                    return;
+                }
+                calendarView.showYearSelectLayout(mYear);
+                tvLunar.setVisibility(View.GONE);
+                tvYear.setVisibility(View.GONE);
+                tvMonthDay.setText(String.valueOf(mYear));
+            }
+        });
+
+        flCurrent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                calendarView.scrollToCurrent();
+            }
+        });
+
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -124,6 +180,21 @@ public class CalendarFragment extends SupportFragment {
     public void onDestroyView() {
         super.onDestroyView();
         unbinder.unbind();
+    }
+
+    @Override
+    public void onDateSelected(Calendar calendar, boolean isClick) {
+        tvLunar.setVisibility(View.VISIBLE);
+        tvYear.setVisibility(View.VISIBLE);
+        tvMonthDay.setText(calendar.getMonth() + "月" + calendar.getDay() + "日");
+        tvYear.setText(String.valueOf(calendar.getYear()));
+        tvLunar.setText(calendar.getLunar());
+        mYear = calendar.getYear();
+    }
+
+    @Override
+    public void onYearChange(int year) {
+
     }
 
     /**

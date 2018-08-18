@@ -7,6 +7,7 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -71,11 +72,6 @@ public class InitActivity extends AppCompatActivity {
     private final Runnable mShowPart2Runnable = new Runnable() {
         @Override
         public void run() {
-            // Delayed display of UI elements
-            ActionBar actionBar = getSupportActionBar();
-            if (actionBar != null) {
-                actionBar.show();
-            }
             fullscreenContentControls.setVisibility(View.VISIBLE);
         }
     };
@@ -119,6 +115,7 @@ public class InitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        supportRequestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_init);
         ButterKnife.bind(this);
 
@@ -149,7 +146,7 @@ public class InitActivity extends AppCompatActivity {
         // created, to briefly hint to the user that UI controls
         // are available.
         delayedHide(100);
-        delayedShow(3000);
+        delayedShow(2000);
     }
 
     private void toggle() {
@@ -162,10 +159,10 @@ public class InitActivity extends AppCompatActivity {
 
     private void hide() {
         // Hide UI first
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.hide();
-        }
+//        ActionBar actionBar = getSupportActionBar();
+//        if (actionBar != null) {
+//            actionBar.hide();
+//        }
         fullscreenContentControls.setVisibility(View.GONE);
         mVisible = false;
 
