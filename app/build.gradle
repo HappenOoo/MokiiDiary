@@ -4,7 +4,7 @@ android {
     compileSdkVersion 28
     defaultConfig {
         applicationId "com.mokii.sun.mokiidiary"
-        minSdkVersion 27
+        minSdkVersion 21
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
@@ -17,6 +17,7 @@ android {
         }
     }
 }
+
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
@@ -49,4 +50,8 @@ dependencies {
     api 'me.yokeyword:eventbus-activity-scope:1.1.0'
     // Your EventBus's version
     api 'org.greenrobot:eventbus:3.0.0'
+
+    api 'com.getbase:floatingactionbutton:1.10.1'
+
+    api 'com.azhon:suspension-fab:1.1.0'
 }

@@ -1,8 +1,10 @@
 package com.mokii.sun.mokiidiary.ui.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +15,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.azhon.suspensionfab.FabAttributes;
+import com.azhon.suspensionfab.OnFabClickListener;
+import com.azhon.suspensionfab.SuspensionFab;
 import com.haibin.calendarview.Calendar;
 import com.haibin.calendarview.CalendarLayout;
 import com.haibin.calendarview.CalendarView;
 import com.mokii.sun.mokiidiary.R;
+import com.mokii.sun.mokiidiary.ui.view.FabAlphaAnimate;
 import com.mokii.sun.mokiidiary.ui.view.calendarview.GroupRecyclerView;
 
 import butterknife.BindView;
@@ -33,7 +39,7 @@ import me.yokeyword.fragmentation.SupportFragment;
  * create an instance of this fragment.
  */
 public class CalendarFragment extends SupportFragment implements CalendarView.OnDateSelectedListener,
-        CalendarView.OnYearChangeListener{
+        CalendarView.OnYearChangeListener,OnFabClickListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String TAG = "CalendarFragment";
@@ -60,6 +66,8 @@ public class CalendarFragment extends SupportFragment implements CalendarView.On
     FrameLayout flCurrent;
     @BindView(R.id.rl_tool)
     RelativeLayout rlTool;
+    @BindView(R.id.fab)
+    SuspensionFab fab;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
@@ -117,7 +125,30 @@ public class CalendarFragment extends SupportFragment implements CalendarView.On
         unbinder = ButterKnife.bind(this, view);
 
         initRltoolStatus();
+        initFabstatus();
         return view;
+    }
+
+    private void initFabstatus() {
+        FabAttributes calendar = new FabAttributes.Builder()
+                .setBackgroundTint(Color.parseColor("#FF9800"))
+                .setSrc(getResources().getDrawable(R.mipmap.calendar))
+                .setFabSize(FloatingActionButton.SIZE_MINI)
+                .setPressedTranslationZ(10)
+                .setTag(1)
+                .build();
+
+        FabAttributes schedule = new FabAttributes.Builder()
+                .setBackgroundTint(Color.parseColor("#2096F3"))
+                .setSrc(getResources().getDrawable(R.mipmap.schedule))
+                .setFabSize(FloatingActionButton.SIZE_MINI)
+                .setPressedTranslationZ(10)
+                .setTag(2)
+                .build();
+
+        fab.addFab(calendar,schedule);
+        fab.setAnimationManager(new FabAlphaAnimate(fab));
+        fab.setFabClickListener(this);
     }
 
     private void initRltoolStatus() {
@@ -195,6 +226,18 @@ public class CalendarFragment extends SupportFragment implements CalendarView.On
     @Override
     public void onYearChange(int year) {
 
+    }
+
+    @Override
+    public void onFabClick(FloatingActionButton fab, Object tag) {
+        switch (Integer.parseInt(tag.toString())){
+            case 1:
+            break;
+            case 2:
+            break;
+            default:
+            break;
+        }
     }
 
     /**
